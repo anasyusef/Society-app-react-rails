@@ -44,6 +44,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[6.0]
       t.text :tokens
 
       t.timestamps
+      
     end
 
     add_index :users, :email,                unique: true
