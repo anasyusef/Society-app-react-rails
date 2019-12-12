@@ -1,18 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Link as RouterLink} from 'react-router-dom';
+import Auth from 'j-toker';
 
 
 
@@ -51,6 +51,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function ForgotPassword() {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
+  
+  const handleSubmit = e => {
+      e.preventDefault();
+      Auth.requestPasswordReset({email: email}).then(response => {
+          console.log(response);
+      }).catch(err => {
+          console.log(err);
+          
+      });
+
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -62,12 +74,15 @@ export default function ForgotPassword() {
         <Typography component="h1" variant="h5">
           Forgot Password
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
+        <ValidatorForm 
+        onSubmit={handleSubmit}>
+          <TextValidator
             variant="outlined"
             margin="normal"
             required
             fullWidth
+            value={email}
+            onChange={e => setEmail(e.target.value)}
             id="email"
             label="Email Address"
             name="email"
@@ -85,12 +100,10 @@ export default function ForgotPassword() {
           </Button>
           <Grid container>
                 <RouterLink to={'/'}>
-                    <Link variant="body2">
                         Back to login
-                    </Link>
               </RouterLink>
           </Grid>
-        </form>
+        </ValidatorForm>
       </div>
       <Box mt={8}>
         <Copyright />
