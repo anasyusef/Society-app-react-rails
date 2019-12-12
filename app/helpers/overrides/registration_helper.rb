@@ -1,0 +1,2 @@
+module Overrides::RegistrationHelper
+end

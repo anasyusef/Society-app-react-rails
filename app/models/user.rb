@@ -8,6 +8,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  before_validation :assign_role
   validates :first_name, :last_name, presence: true
+
   belongs_to :role
+
+  protected
+
+  def assign_role
+    p self
+  end
+
 end

@@ -7,9 +7,12 @@ class HelloWorld extends React.Component {
     Auth.configure({apiUrl: '/api/v1'});
 
     Auth.emailSignUp({
-      email: 'test@test.com',
+      first_name: 'Test',
+      last_name: 'Test',
+      email: 'test12345@12test.com',
       password: '123456',
-      password_confirmation: '123456'
+      password_confirmation: '123456',
+      'role_name': 'member',
     });
     
   }
