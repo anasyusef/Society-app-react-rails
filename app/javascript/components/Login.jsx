@@ -1,67 +1,158 @@
-import React, {useState} from 'react';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import React, {useState, useEffect} from 'react';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Auth from 'j-toker';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import {Link as RouterLink} from 'react-router-dom';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import Auth from 'j-toker'
+
+
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="/">
+        Society React App
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 const useStyles = makeStyles(theme => ({
-    root: {
-      textAlign: 'center',
-      marginTop: 20
-    },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
 
-    textField: {
-        width: 300,
-    },
-    loginButton: {
-        width: 200
-    },
-  }));
+export default function SignIn() {
+  const classes = useStyles();
 
-export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+  const [formValidation, setFormValidation] = useState({success: true, message: ''})
 
-    const classes = useStyles();
+  const handleSubmit = (e) => {
+    setIsButtonDisabled(true)
+    e.preventDefault();
+    Auth.emailSignIn({
+        email: email,
+        password: password,
+      }).then(response => {
+        setFormValidation({success: true, message: 'Successful Login'})
+      }).catch(err => {
+          setFormValidation({success: err.data.success, message: err.data.errors})
+      }).then(
+        setIsButtonDisabled(false)
+      );
+  }
 
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [formInfo, setFormInfo] = useState({message: '', color: 'primary'});
-    const [buttonDisabled, setButtonDisabled] = useState(false)
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <ValidatorForm
+                onSubmit={handleSubmit}
+            >
+            <Typography align="center" color={formValidation.success ? "inherit" : "error"}>
+                {formValidation.message}
+            </Typography>
 
-    const handleClick = () => {
-        setButtonDisabled(true)
-        Auth.emailSignIn({
-            email: email,
-            password: password,
-          }).then(function(response) {
-            setFormInfo({message: 'Successful Login', color: 'primary'})
-            
-          }).catch(err => {
-            setFormInfo({message: err.data.errors, color: 'error'})
-          }).then(() => {
-              setButtonDisabled(false)
-          });
-    }
+          <TextValidator
+            variant="outlined"
+            margin="normal"
+            onChange={(e) => {setFormValidation({success:true, message: ''}); setEmail(e.target.value)}}
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            value={email}
+            error={!formValidation.success}
+            autoComplete="email"
+            validators={['required', 'isEmail']}
+            errorMessages={['Field is required', 'Email is not valid']}
+            autoFocus
+          />
+          <TextValidator
+            variant="outlined"
+            margin="normal"
+            onChange={(e) => {setFormValidation({success:true, message: ''}); setPassword(e.target.value)}}
+            error={!formValidation.success}
+            value={password}
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            validators={['required']}
+            errorMessages={['Field is required']}
+            autoComplete="current-password"
+          />
 
-    return (
-        <div className={classes.root}>
-        <Grid container spacing={3} alignItems='center' >
-            <Grid item xs={12} >
-                <Typography color={formInfo.color}>
-                    {formInfo.message}
-                </Typography>
+          <Button
+            type="submit"
+            fullWidth
+            disabled={isButtonDisabled}
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <RouterLink to={'/auth/forgot_password'}>
+
+                    Forgot password?
+
+              </RouterLink>
             </Grid>
-            <Grid item xs={12}>
-                <TextField className={classes.textField} id="email" label="Email" onChange={(e) => setEmail(e.target.value)} />
+            <Grid item>
+                <RouterLink to={'/auth/sign_up'}>
+
+                    {"Don't have an account? Sign Up"}
+
+                </RouterLink>
             </Grid>
-            <Grid item xs={12}>
-                <TextField className={classes.textField} id="password" type="password"  label="Password" onChange={(e) => setPassword(e.target.value)} />
-            </Grid>
-            <Grid item xs={12}>
-            <Button className={classes.loginButton} onClick={handleClick} variant="contained" color="primary" disabled={buttonDisabled}>Login</Button>
-            </Grid>
-        </Grid>
-        </div>
-    );
+          </Grid>
+          </ValidatorForm>
+      </div>
+      <Box mt={8}>
+        <Copyright />
+      </Box>
+    </Container>
+  );
 }
