@@ -18,10 +18,11 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import Chart from './Chart';
 import Orders from './Orders';
 import Auth from 'j-toker'
+import NextEca from './NextEca'
 
 function Copyright() {
   return (
@@ -36,7 +37,7 @@ function Copyright() {
   );
 }
 
-const drawerWidth = 240;
+const drawerWidth = 310;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -173,8 +174,6 @@ export default function Dashboard(props) {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -189,7 +188,7 @@ export default function Dashboard(props) {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                {/* <Deposits /> */}
+                <NextEca />
               </Paper>
             </Grid>
             {/* Recent Orders */}
