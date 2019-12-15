@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_15_131947) do
+ActiveRecord::Schema.define(version: 2019_12_15_135753) do
 
   create_table "registrations", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2019_12_15_131947) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "schedules", force: :cascade do |t|
+    t.string "day", null: false
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["day", "start_time", "end_time"], name: "index_schedules_on_day_and_start_time_and_end_time", unique: true
+  end
+
   create_table "societies", force: :cascade do |t|
     t.string "name", null: false
     t.integer "max_people", null: false
@@ -35,10 +44,11 @@ ActiveRecord::Schema.define(version: 2019_12_15_131947) do
     t.string "brief_description", null: false
     t.string "essentials"
     t.boolean "is_active", default: false
-    t.datetime "default", null: false
+    t.integer "schedule_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
+    t.index ["schedule_id"], name: "index_societies_on_schedule_id"
     t.index ["user_id"], name: "index_societies_on_user_id"
   end
 

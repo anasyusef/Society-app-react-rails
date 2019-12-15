@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         registrations: 'overrides/registrations',
         token_validations: 'overrides/token_validations'
       }
+      resources :societies
     end
   end
   root 'index#home'

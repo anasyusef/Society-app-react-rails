@@ -7,7 +7,7 @@ class CreateSocieties < ActiveRecord::Migration[6.0]
       t.string :brief_description, null: false
       t.string :essentials
       t.boolean :is_active, default: false
-      t.datetime :default, null: false
+      t.references :schedule, null: false
 
       t.timestamps
     end

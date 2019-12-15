@@ -31,7 +31,7 @@ export const mainListItems = (
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Societies Joined" />
+      <ListItemText primary="Joined Societies" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
