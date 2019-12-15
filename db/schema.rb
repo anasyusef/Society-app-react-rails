@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_15_111442) do
+ActiveRecord::Schema.define(version: 2019_12_15_131947) do
+
+  create_table "registrations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "society_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "\"society\", \"user\"", name: "index_registrations_on_society_and_user", unique: true
+    t.index ["society_id"], name: "index_registrations_on_society_id"
+    t.index ["user_id"], name: "index_registrations_on_user_id"
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string "name"
@@ -25,6 +35,7 @@ ActiveRecord::Schema.define(version: 2019_12_15_111442) do
     t.string "brief_description", null: false
     t.string "essentials"
     t.boolean "is_active", default: false
+    t.datetime "default", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
@@ -62,6 +73,8 @@ ActiveRecord::Schema.define(version: 2019_12_15_111442) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "registrations", "societies"
+  add_foreign_key "registrations", "users"
   add_foreign_key "societies", "users"
   add_foreign_key "users", "roles"
 end
