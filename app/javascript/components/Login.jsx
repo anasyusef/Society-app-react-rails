@@ -67,8 +67,7 @@ export default function SignIn(props) {
         password: password,
       }).then(response => {
         setFormValidation({success: true, message: 'Successful Login'})
-        props.onAuthentication(true)
-        // history.push('/dashboard')
+        window.location.replace('/dashboard/home')
       }).catch(err => {
           setFormValidation({success: err.data.success, message: err.data.errors})
       }).then(() => {
@@ -91,6 +90,7 @@ export default function SignIn(props) {
                 onSubmit={handleSubmit}
             >
             <Typography align="center" color={formValidation.success ? "inherit" : "error"}>
+                {props.message}
                 {formValidation.message}
             </Typography>
 

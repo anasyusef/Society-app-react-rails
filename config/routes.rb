@@ -6,10 +6,12 @@ Rails.application.routes.draw do
     get 'contact_society_administrator'
     get 'edit_profile'
   end
-  get 'auth/sign_in'
-  get 'auth/sign_out'
-  get 'auth/forgot_password'
-  get 'auth/sign_up'
+
+  namespace :auth do
+    get 'sign_in'
+    get 'sign_up'
+    get 'forgot_password'
+  end
   namespace :api do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {

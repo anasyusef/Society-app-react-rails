@@ -18,9 +18,10 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import Button from '@material-ui/core/Button';
 import Chart from './Chart';
 import Orders from './Orders';
-import Auth from 'j-toker'
+import Auth from 'j-toker';
 import NextEca from './NextEca'
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -32,6 +33,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
 import useStyles from './styles';
 import JoinedSocieties from './JoinedSocieties';
+import titleize from 'titleize'
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -50,6 +52,11 @@ function Copyright() {
   );
 }
 export default function Dashboard(props) {
+
+  useEffect(() => {
+    Auth.configure({apiUrl: '/api/v1'});
+  })
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const menuAction = window.location.pathname.split('/').slice(-1)[0]
@@ -76,13 +83,14 @@ export default function Dashboard(props) {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            {titleize(menuAction.split('_').join(' '))}
           </Typography>
-          <IconButton color="inherit">
+          <Button onClick={() => {Auth.signOut(); window.location.href = '/auth/sign_in'}} color="inherit">Sign out</Button>
+          {/* <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
-          </IconButton>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
       <Drawer
