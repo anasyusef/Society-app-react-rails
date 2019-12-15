@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import {Link as RouterLink} from 'react-router-dom';
 import Auth from 'j-toker'
 
 function Copyright() {
@@ -172,9 +171,9 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <RouterLink to='/'>
-                Already have an account? Sign in
-              </RouterLink>
+            <Link href="/auth/sign_in" variant="body2">
+              Already have an account? Sign in
+            </Link>
             </Grid>
           </Grid>
         </ValidatorForm>

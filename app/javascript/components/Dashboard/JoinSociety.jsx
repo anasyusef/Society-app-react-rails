@@ -1,7 +1,7 @@
 import React from 'react';
 import Dashboard from './Dashboard';
 
-export default function JoinedSocieties() {
+export default function JoinSociety() {
     return(
         <Dashboard />
     );
