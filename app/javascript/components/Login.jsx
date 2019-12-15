@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, useHistory, useLocation} from 'react-router-dom';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import Auth from 'j-toker'
 
@@ -49,13 +49,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-  const [formValidation, setFormValidation] = useState({success: true, message: ''})
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [formValidation, setFormValidation] = useState({success: true, message: ''});
+  const history = useHistory()
+  let location = useLocation();
 
   const handleSubmit = (e) => {
     setIsButtonDisabled(true)
@@ -65,11 +67,14 @@ export default function SignIn() {
         password: password,
       }).then(response => {
         setFormValidation({success: true, message: 'Successful Login'})
+        props.onAuthentication(true)
+        history.push('/dashboard')
       }).catch(err => {
           setFormValidation({success: err.data.success, message: err.data.errors})
-      }).then(
-        setIsButtonDisabled(false)
-      );
+      }).then(() => {
+        setIsButtonDisabled(false);
+      })
+    
   }
 
   return (
