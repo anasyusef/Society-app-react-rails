@@ -19,7 +19,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
-import Chart from './Chart';
 import Orders from './Orders';
 import Auth from 'j-toker';
 import NextEca from './NextEca'

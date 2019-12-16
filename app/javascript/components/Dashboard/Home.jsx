@@ -14,7 +14,6 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
-import Chart from './Chart';
 import Orders from './Orders';
 import Auth from 'j-toker'
 import NextEca from './NextEca'
@@ -30,7 +29,6 @@ export default function Home() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
                 <Paper className={fixedHeightPaper}>
-                <Chart />
                 </Paper>
             </Grid>
             {/* Recent Deposits */}
