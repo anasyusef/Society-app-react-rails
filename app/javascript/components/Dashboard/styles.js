@@ -79,4 +79,15 @@ export default makeStyles(theme => ({
     fixedHeight: {
       height: 240,
     },
+    buttons: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 400,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
   }));

@@ -1,8 +1,12 @@
 import React from 'react';
 import Dashboard from './Dashboard';
+import JoinSocietyForm from './JoinSocietyForm'
+import Auth from 'j-toker'
 
-export default function JoinSociety() {
+export default function JoinSociety(props) {
     return(
-        <Dashboard />
+        <Dashboard>
+            <JoinSocietyForm societies={props.societies} />
+        </Dashboard>
     );
 }
