@@ -19,6 +19,7 @@ Rails.application.routes.draw do
         token_validations: 'overrides/token_validations'
       }
       resources :societies
+      resources :registrations
     end
   end
   root 'auth#sign_in'

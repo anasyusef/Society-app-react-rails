@@ -53,6 +53,7 @@ export default function SignIn(props) {
   const classes = useStyles();
   useEffect(() => {
     Auth.configure({apiUrl: '/api/v1'})
+    console.log(Auth.retrieveData('authHeaders'));
   })
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

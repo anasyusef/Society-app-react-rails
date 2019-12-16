@@ -6,8 +6,7 @@ module Api
       before_action :authenticate_api_v1_user!
 
         def index
-          p current_api_v1_user
-          @societies = Society.where(user: current_user).all
+          @societies = Society.all
           respond_to do |format|
             format.json { render :json => @societies}
           end

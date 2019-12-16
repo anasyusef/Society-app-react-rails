@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 2019_12_15_135753) do
     t.integer "society_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"society\", \"user\"", name: "index_registrations_on_society_and_user", unique: true
     t.index ["society_id"], name: "index_registrations_on_society_id"
     t.index ["user_id"], name: "index_registrations_on_user_id"
   end
