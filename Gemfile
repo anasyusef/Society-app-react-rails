@@ -25,6 +25,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'devise_token_auth'
 
 gem 'react-rails'
+gem 'faker'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

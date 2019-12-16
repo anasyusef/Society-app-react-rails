@@ -15,13 +15,27 @@ import Auth from 'j-toker';
 import axios from 'axios'
 import $ from 'jquery'
 import titleize from 'titleize';
-
+import PropTypes from 'prop-types';
+import clsx from 'clsx';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
+import CloseIcon from '@material-ui/icons/Close';
+import { amber, green } from '@material-ui/core/colors';
+import IconButton from '@material-ui/core/IconButton';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import WarningIcon from '@material-ui/icons/Warning';
+import { makeStyles } from '@material-ui/core/styles';
+import CustomizedSnackbar from '../CustomizedSnackbar';
 
 export default function JoinSocietyForm(props) {
     const classes = useStyles();
-    const [society, setSociety] = React.useState({id: 0});
     const [societies, setSocieties] = React.useState(props.societies);
+    const [society, setSociety] = React.useState(societies[0]);
     const [isDisabled, setIsDisabled] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [snackBarInfo, setSnackBarInfo] = React.useState({message: '', variant: ''})
     Auth.configure({apiUrl: '/api/v1'})
     const authHeaders = Auth.retrieveData('authHeaders')
     const handleChange = event => {
@@ -33,6 +47,7 @@ export default function JoinSocietyForm(props) {
       };
 
     const handleClick = event => {
+        setOpen(true);
         setIsDisabled(true)
         $.ajax({
             type: 'POST',
@@ -41,12 +56,22 @@ export default function JoinSocietyForm(props) {
             headers: authHeaders,
             data: society,
         }).done(data => {
-            console.log(data);
+            setSnackBarInfo({message: `You have joined ${society.name} successfully!`, variant: 'success'})
+            setSociety({...society, joined_members : society.joined_members + 1})
         }).fail(err => {
-            console.log(err);
-        });
-        setIsDisabled(false);
+            setSnackBarInfo({message: `You are already joined in ${society.name}`, variant: 'error'})
+            
+        }).always(() => setIsDisabled(false));
+        
     }
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
   return (
     <Paper className={classes.paper}>
       <Typography variant="h6" gutterBottom>
@@ -56,7 +81,7 @@ export default function JoinSocietyForm(props) {
         <Grid item xs={12}>
         <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel id="select-society-label">
-          Society
+          Society Name
         </InputLabel>
         <Select
           labelId="select-society-label"
@@ -71,20 +96,7 @@ export default function JoinSocietyForm(props) {
         </Select>
       </FormControl>
         </Grid>
-        
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="name"
-            name="name"
-            label="Name"
-            variant="outlined"
-            fullWidth
-            value={society.name !== undefined ? titleize(society.name) : ""}
-            disabled
-            autoComplete="sname"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6}>
           <TextField
             id="location"
             name="location"
@@ -94,6 +106,17 @@ export default function JoinSocietyForm(props) {
             variant="outlined"
             fullWidth
             autoComplete="location"
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            id="essentials"
+            name="essentials"
+            label="Essentials"
+            disabled
+            value={society.essentials !== undefined ? society.essentials : ""}
+            variant="outlined"
+            fullWidth
           />
         </Grid>
         <Grid item xs={12}>
@@ -109,23 +132,23 @@ export default function JoinSocietyForm(props) {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="essentials"
-            name="essentials"
-            label="Essentials"
-            disabled
-            value={society.essentials !== undefined ? society.essentials : ""}
-            variant="outlined"
-            fullWidth
-          />
-        </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
             id="status"
             name="status"
             label="Status"
             value={society.is_active !== undefined ? society.is_active ? "Active" : "Inactive" : ""}
+            disabled
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            id="joined-members"
+            name="joined members"
+            label="Joined members"
+            value={`${society.joined_members} out of ${society.max_people}`}
             disabled
             variant="outlined"
             fullWidth
@@ -142,6 +165,7 @@ export default function JoinSocietyForm(props) {
             >
                 Join
             </Button>
+            {snackBarInfo.variant !== '' ? <CustomizedSnackbar open={open} variant={snackBarInfo.variant} message={snackBarInfo.message} onClose={handleClose}/> : null}
     </div>
     </Paper>
   );

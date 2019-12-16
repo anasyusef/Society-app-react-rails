@@ -55,7 +55,9 @@ export default function SignUp() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [formValidation, setFormValidation] = useState({success: true, message: ''})
 
-
+  React.useEffect(() => {
+    Auth.configure({apiUrl: '/api/v1'})
+  })
   const handleSubmit = e => {
       e.preventDefault();
       setIsButtonDisabled(true);
@@ -65,7 +67,7 @@ export default function SignUp() {
         email: email,
         password: password,
         password_confirmation: password,
-        role_name: 'member',
+        role_name: 'Member',
       }).then(response => {
           setFormValidation({success: true, message: 'Successfully registered'})
           
