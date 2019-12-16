@@ -5,7 +5,6 @@ import Login from './Login';
 import Signup from './Signup';
 import ForgotPassword from './ForgotPassword';
 import Dashboard from './Dashboard/Dashboard';
-import JoinedSocieties from './Dashboard/JoinedSocieties';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory} from 'react-router-dom';
 
 

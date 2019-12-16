@@ -67,7 +67,7 @@ export default function SignIn(props) {
         password: password,
       }).then(response => {
         setFormValidation({success: true, message: 'Successful Login'})
-        window.location.replace('/dashboard/home')
+        window.location.href = '/dashboard/home'
       }).catch(err => {
           setFormValidation({success: err.data.success, message: err.data.errors})
       }).then(() => {

@@ -32,7 +32,6 @@ import AddIcon from '@material-ui/icons/Add';
 import MailIcon from '@material-ui/icons/Mail';
 import PersonIcon from '@material-ui/icons/Person';
 import useStyles from './styles';
-import JoinedSocieties from './JoinedSocieties';
 import titleize from 'titleize'
 
 function ListItemLink(props) {

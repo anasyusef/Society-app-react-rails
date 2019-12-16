@@ -1,10 +1,9 @@
 class DashboardController < ApplicationController
   include DeviseTokenAuth::Concerns::SetUserByToken
 
-  before_action :authenticate_current_user
+  # before_action :authenticate_current_user
 
   def home
-    p get_current_user
   end
   
   def joined_societies
