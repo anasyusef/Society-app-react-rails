@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Society App - Built with React
 
-Things you may want to cover:
+* Ruby version = 2.6.3
+* Rails version = 6.0.2
 
-* Ruby version
 
-* System dependencies
+The project requires yarn to install all the javascript dependencies.
+Run pending migrations if required.
+Run rake db:seed to get sample data for the application up and running.
 
-* Configuration
 
-* Database creation
 
-* Database initialization
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
