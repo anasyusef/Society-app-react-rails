@@ -21,6 +21,7 @@ module Api
           end
 
           def destroy
+            p params
             @registration = Registration.where(user: current_api_v1_user, society_id: params[:id]).take
             if @registration.destroy!
               respond_to do |format|
