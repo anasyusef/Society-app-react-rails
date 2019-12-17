@@ -47,7 +47,7 @@ export default function ContactSocietyAdministrator(props) {
                 to_email: societyAdministrator.email,
             }
         }).done(data => {
-            // console.log(data);
+            window.location.href="home"
         }).fail(err => {
             console.log(err);
         });
