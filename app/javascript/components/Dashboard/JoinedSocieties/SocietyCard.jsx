@@ -21,6 +21,9 @@ const useStyles = makeStyles({
 
 export default function SocietyCard(props) {
     const classes = useStyles();
+    const handleClick = (event) => {
+      props.onQuit(event.currentTarget.id)
+    }
     return(
         <Grid item xs={4}>
             <Card className={classes.card}>
@@ -41,7 +44,7 @@ export default function SocietyCard(props) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button variant="contained" color="secondary" size="small">Quit</Button>
+                    <Button id={props.id} variant="contained" color="secondary" size="small" onClick={handleClick}>Quit</Button>
                 </CardActions>
             </Card>
         </Grid>

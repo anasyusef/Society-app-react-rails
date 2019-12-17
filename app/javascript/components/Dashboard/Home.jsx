@@ -13,30 +13,34 @@ import Auth from 'j-toker'
 import TotalSocieties from './TotalSocieties'
 import useStyles from './styles';
 import Dashboard from './Dashboard'
+import SocietyCard from './JoinedSocieties/SocietyCard';
 
-export default function Home() {
+export default function Home(props) {
+    
     const classes = useStyles();
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     return(
     <Dashboard>
         <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-                <Paper className={fixedHeightPaper}>
-                </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-                <Paper className={fixedHeightPaper}>
-                <TotalSocieties />
-                </Paper>
-            </Grid>
-            {/* Recent Orders */}
             <Grid item xs={12}>
+                <Typography variant="h5">Hi {props.current_user.first_name}, { props.current_user.sign_in_count > 1 ? "Welcome back" : "Welcome to the Society App"}!</Typography>
+            </Grid>
+            {/* <Grid item xs={12} md={8} lg={9}>
+                <Paper className={fixedHeightPaper}>
+                </Paper>
+            </Grid> */}
+            <Grid item xs={9}>
                 <Paper className={classes.paper}>
-                    <JoinSocietiesCard />
+                    <JoinSocietiesCard joined_societies = {props.joined_societies}/>
                 </Paper>
             </Grid>
+            <Grid item xs={12} md={3} lg={3}>
+                <Paper className={fixedHeightPaper}>
+                <TotalSocieties total_societies={props.joined_societies.length} />
+                </Paper>
+            </Grid>
+            
+            
         </Grid>
     </Dashboard>
     )

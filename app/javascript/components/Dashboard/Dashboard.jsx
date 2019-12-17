@@ -30,19 +30,6 @@ import titleize from 'titleize'
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
 }
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        Society App
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 export default function Dashboard(props) {
 
   useEffect(() => {
@@ -135,10 +122,6 @@ export default function Dashboard(props) {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
         {props.children}
-
-        <Box pt={4}>
-            <Copyright />
-        </Box>
         </Container>
       </main>
     </div>

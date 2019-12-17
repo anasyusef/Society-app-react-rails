@@ -77,7 +77,7 @@ export default makeStyles(theme => ({
       flexDirection: 'column',
     },
     fixedHeight: {
-      height: 240,
+      height: 140,
     },
     buttons: {
       display: 'flex',

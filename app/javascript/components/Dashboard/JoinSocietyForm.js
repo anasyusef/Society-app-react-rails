@@ -37,7 +37,6 @@ export default function JoinSocietyForm(props) {
     const [open, setOpen] = React.useState(false);
     const [snackBarInfo, setSnackBarInfo] = React.useState({message: '', variant: ''})
     Auth.configure({apiUrl: '/api/v1'})
-    const authHeaders = Auth.retrieveData('authHeaders')
     const handleChange = event => {
         societies.forEach(society => {
             if (society.name === event.target.value) {
@@ -53,11 +52,10 @@ export default function JoinSocietyForm(props) {
             type: 'POST',
             url: 'http://localhost:3000/api/v1/registrations',
             dataType: 'JSON',
-            headers: authHeaders,
+            headers: Auth.retrieveData('authHeaders'),
             data: society,
         }).done(data => {
             setSnackBarInfo({message: `You have joined ${society.name} successfully!`, variant: 'success'})
-            console.log(snackBarInfo.variant)
             setSociety({...society, joined_members : society.joined_members + 1})
         }).fail(err => {
             setSnackBarInfo({message: `You are already joined in ${society.name}`, variant: 'error'})
@@ -122,13 +120,45 @@ export default function JoinSocietyForm(props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
             id="brief_description"
             name="brief_description"
             value={society.brief_description !== undefined ? society.brief_description : ""}
             disabled
             multiline
             label="Brief Description"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            id="day"
+            name="day"
+            value={society.day}
+            disabled
+            label="Day"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            id="start_time"
+            name="start_time"
+            value={society.start_time}
+            disabled
+            label="Start Time"
+            variant="outlined"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            id="end_time"
+            name="end_time"
+            value={society.end_time}
+            disabled
+            label="End Time"
             variant="outlined"
             fullWidth
           />

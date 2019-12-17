@@ -1,1 +1,1 @@
-<%= react_component('Dashboard/Home') %>
+<%= react_component('Dashboard/Home', {joined_societies: @joined_societies_json, current_user: {sign_in_count: @current_user.sign_in_count, first_name: @current_user.first_name}}) %>

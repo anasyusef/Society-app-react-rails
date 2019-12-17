@@ -8,7 +8,6 @@ module Api
           def create
             @society = Society.find(params[:id])
             @registration = Registration.new(society: @society, user: current_api_v1_user)
-            p current_api_v1_user
             
             if @registration.save!
                 respond_to do |format|
@@ -19,6 +18,19 @@ module Api
                     format.json { render :json => {status: 422}}
                 end
             end
+          end
+
+          def destroy
+            @registration = Registration.where(user: current_api_v1_user, society_id: params[:id]).take
+            if @registration.destroy!
+              respond_to do |format|
+              format.json { render :json => {society: @registration.society}}
+              end
+            else 
+              respond_to do |format|
+              format.json { render :json => {status: 422}}
+            end
+          end
           end
       end
     end
