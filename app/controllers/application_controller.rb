@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
     def get_current_user
       return nil unless cookies[:authHeaders]
-      auth_headers = JSON.parse(cookies[:authHeaders])
+      auth_headers = JSON.parse(cookies[:authHeaders]) ||
   
       expiration_datetime = DateTime.strptime(auth_headers["expiry"], "%s")
       current_user = User.find_by(uid: auth_headers["uid"])
@@ -28,6 +28,6 @@ class ApplicationController < ActionController::Base
     end
   
     def authenticate_current_user
-      redirect_to auth_sign_in_path, notice: 'Please login to view that page!' if get_current_user.nil?
+      redirect_to auth_sign_in_path, notice: t('login_requested') if get_current_user.nil?
     end
 end

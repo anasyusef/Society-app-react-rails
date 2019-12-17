@@ -32,3 +32,4 @@
 en:
   hello: "Hello world"
   app_title: "Society App"
+  login_requested: "Please login to view that page!"

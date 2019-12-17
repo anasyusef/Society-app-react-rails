@@ -3,7 +3,7 @@ module Overrides
   class Overrides::RegistrationsController < DeviseTokenAuth::RegistrationsController
 
     def create
-      params['role_id'] = Role.where(name: params['role_name'].titleize).take
+      params['role_id'] = Role.where(name: params['role_name']).take
       if !params['role_id'].nil?
         params['role_id'] = params['role_id'].id
       end
