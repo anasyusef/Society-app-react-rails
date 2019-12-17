@@ -33,16 +33,22 @@ times = ["12:00", "6:30", "13:30", "16:00", "18:00", "20:00", "22:00", "17:00", 
     schedule.save!
 end
 
-15.times do
-    society = Society.new(
-             name:" #{Faker::Esport.game}",
-             max_people: rand(3..30),
-             location: location.sample,
-             brief_description: " #{Faker::Lorem.paragraph(sentence_count: 2)} ",
-             essentials: " #{Faker::Lorem.sentence(word_count: 3, supplemental: false, random_words_to_add: 4)} ",
-             is_active: [true, false].sample,
-             schedule: Schedule.all.sample,
-             user: User.includes(:role).where('roles.name': 'Society Administrator').all.sample,
-           )
-    society.save!
+10.times do
+    begin
+        society = Society.new(
+            name:" #{Faker::Esport.game}",
+            max_people: rand(3..30),
+            location: location.sample,
+            brief_description: " #{Faker::Lorem.paragraph(sentence_count: 2)} ",
+            essentials: " #{Faker::Lorem.sentence(word_count: 3, supplemental: false, random_words_to_add: 4)} ",
+            is_active: [true, false].sample,
+            schedule: Schedule.all.sample,
+            user: User.includes(:role).where('roles.name': 'Society Administrator').all.sample,
+          )
+        society.save!
+    rescue => SQLite3::ConstraintException
+        retry
+    end
+    
+    
 end

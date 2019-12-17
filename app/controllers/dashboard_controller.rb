@@ -7,7 +7,17 @@ class DashboardController < ApplicationController
   end
   
   def joined_societies
-    @societies = Society.all
+    @joined_societies = Society.includes(:registrations).where('registrations.user_id': @current_user.id)
+    @joined_societies_json = []
+    @joined_societies.each do |society|
+      society_json = society.as_json
+      society_json['day'] = society.schedule.day
+      society_json['start_time'] = society.schedule.start_time.strftime('%H:%M')
+      society_json['end_time'] = society.schedule.end_time.strftime('%H:%M')
+      @joined_societies_json.push(society_json)
+    end
+    p @joined_societies_json
+
   end
 
   def join_society
@@ -18,7 +28,6 @@ class DashboardController < ApplicationController
       society_json['joined_members'] = joined_members
       @societies_json.push(society_json)
     end
-    p @societies_json
   end
   
   def contact_society_administrator

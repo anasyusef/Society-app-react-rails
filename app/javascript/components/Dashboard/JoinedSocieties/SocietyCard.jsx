@@ -29,7 +29,7 @@ export default function SocietyCard(props) {
                     {props.name}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                    {props.day}s at {props.time}
+                    {props.day}s from {props.start_time} to {props.end_time}
                     </Typography>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                     {props.location}

@@ -57,6 +57,7 @@ export default function JoinSocietyForm(props) {
             data: society,
         }).done(data => {
             setSnackBarInfo({message: `You have joined ${society.name} successfully!`, variant: 'success'})
+            console.log(snackBarInfo.variant)
             setSociety({...society, joined_members : society.joined_members + 1})
         }).fail(err => {
             setSnackBarInfo({message: `You are already joined in ${society.name}`, variant: 'error'})
@@ -154,6 +155,7 @@ export default function JoinSocietyForm(props) {
             fullWidth
           />
         </Grid>
+        <Grid item xs={12} />
       </Grid>
       <div className={classes.buttons}>
             <Button

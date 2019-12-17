@@ -1,7 +1,9 @@
 class CreateSocieties < ActiveRecord::Migration[6.0]
   def change
     create_table :societies do |t|
-      t.string :name, null: false, unique: true
+
+      t.string :name, null: false
+      t.index :name, unique: true
       t.integer :max_people, null: false
       t.string :location, null: false
       t.string :brief_description, null: false
