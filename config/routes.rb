@@ -18,8 +18,8 @@ Rails.application.routes.draw do
         registrations: 'overrides/registrations',
         token_validations: 'overrides/token_validations'
       }
-      resources :societies
-      resources :registrations
+      resources :societies, only: [:index]
+      resources :registrations, only: [:create, :destroy]
     end
   end
   root 'auth#sign_in'

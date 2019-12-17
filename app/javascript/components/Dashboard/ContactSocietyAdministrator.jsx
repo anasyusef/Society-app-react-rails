@@ -1,5 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import Dashboard from './Dashboard'
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -15,20 +16,19 @@ import Auth from 'j-toker';
 import axios from 'axios'
 import $ from 'jquery'
 import titleize from 'titleize';
-import Dashboard from './Dashboard'
 
 
 export default function ContactSocietyAdministrator(props) {
     const classes = useStyles();
-    const [society, setSociety] = React.useState({id: 0});
-    const [societies, setSocieties] = React.useState(props.societies);
+    const [societyAdministrators, setSocietyAdministrators] = React.useState(props.society_administrators);
+    const [societyAdministrator, setSocietyAdministrator] = React.useState(societyAdministrators[0]);
     const [isDisabled, setIsDisabled] = React.useState(false);
     Auth.configure({apiUrl: '/api/v1'})
     const authHeaders = Auth.retrieveData('authHeaders')
     const handleChange = event => {
-        societies.forEach(society => {
-            if (society.name === event.target.value) {
-                setSociety(society);
+        societyAdministrators.forEach(societyAdministrator => {
+            if (societyAdministrator.id === event.target.value) {
+                setSocietyAdministrator(societyAdministrator);
             }
         })
       };
@@ -58,15 +58,33 @@ export default function ContactSocietyAdministrator(props) {
             
             <Grid item xs={12} sm={6}>
             <TextField
-                id="subjecr"
+                id="subject"
                 name="subject"
                 label="Subject"
                 variant="outlined"
+                required
                 fullWidth
-                value={society.name !== undefined ? titleize(society.name) : ""}
-                disabled
                 autoComplete="subject"
             />
+            </Grid>
+            <Grid item xs={12} sm={6} />
+            <Grid item xs={12} sm={6}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                    <InputLabel id="select-society-administrator-label">
+                    To
+                    </InputLabel>
+                    <Select
+                    labelId="select-society-administrator-label"
+                    id="select-society"
+                    value={societyAdministrator.id}
+                    onChange={handleChange}
+                    fullWidth
+                    >
+                    {societyAdministrators.map(societyAdministrator => {
+                        return <MenuItem key={societyAdministrator.id} value={societyAdministrator.id}>{`${societyAdministrator.first_name} ${societyAdministrator.last_name}`}</MenuItem>
+                    })}
+                    </Select>
+                </FormControl>
             </Grid>
             <Grid item xs={12}>
             <TextField
@@ -79,6 +97,7 @@ export default function ContactSocietyAdministrator(props) {
                 fullWidth
             />
             </Grid>
+            <Grid item xs={12} />
         </Grid>
         <div className={classes.buttons}>
                 <Button

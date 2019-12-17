@@ -25,6 +25,7 @@ class DashboardController < ApplicationController
   end
   
   def contact_society_administrator
+    @society_administrators_json = User.joins(:societies).uniq
   end
 
   def edit_profile
