@@ -10,7 +10,6 @@ module Api
           @societies = Society.all
           respond_to do |format|
             format.json { render :json => @societies}
-            format.html { render :json => @societies}
           end
         end
     end

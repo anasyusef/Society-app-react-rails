@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
     def get_current_user
       return nil unless cookies[:authHeaders]
-      auth_headers = JSON.parse(cookies[:authHeaders]) ||
+      auth_headers = JSON.parse(cookies[:authHeaders])
   
       expiration_datetime = DateTime.strptime(auth_headers["expiry"], "%s")
       current_user = User.find_by(uid: auth_headers["uid"])
