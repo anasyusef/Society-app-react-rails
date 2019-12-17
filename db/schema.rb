@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2019_12_15_135753) do
     t.time "end_time", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["day", "start_time", "end_time"], name: "index_schedules_on_day_and_start_time_and_end_time", unique: true
+    t.index ["day", "start_time", "end_time"], name: "index_schedules_on_day_and_start_time_and_end_time"
   end
 
   create_table "societies", force: :cascade do |t|
@@ -43,11 +43,11 @@ ActiveRecord::Schema.define(version: 2019_12_15_135753) do
     t.string "brief_description", null: false
     t.string "essentials"
     t.boolean "is_active", default: false
-    t.integer "schedule_id", null: false
+    t.integer "schedule_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "user_id"
-    t.index ["name"], name: "index_societies_on_name", unique: true
+    t.index ["name"], name: "index_societies_on_name"
     t.index ["schedule_id"], name: "index_societies_on_schedule_id"
     t.index ["user_id"], name: "index_societies_on_user_id"
   end
