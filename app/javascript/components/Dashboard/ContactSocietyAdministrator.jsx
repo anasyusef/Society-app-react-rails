@@ -22,6 +22,8 @@ export default function ContactSocietyAdministrator(props) {
     const classes = useStyles();
     const [societyAdministrators, setSocietyAdministrators] = React.useState(props.society_administrators);
     const [societyAdministrator, setSocietyAdministrator] = React.useState(societyAdministrators[0]);
+    const [subject, setSubject] = React.useState('')
+    const [content, setContent] = React.useState('')
     const [isDisabled, setIsDisabled] = React.useState(false);
     Auth.configure({apiUrl: '/api/v1'})
     const authHeaders = Auth.retrieveData('authHeaders')
@@ -37,12 +39,15 @@ export default function ContactSocietyAdministrator(props) {
         setIsDisabled(true)
         $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/api/v1/registrations',
-            dataType: 'JSON',
+            url: 'http://localhost:3000/dashboard/contact_society_administrator',
             headers: authHeaders,
-            data: society,
+            data: {
+                subject: subject,
+                content: content,
+                to_email: societyAdministrator.email,
+            }
         }).done(data => {
-            console.log(data);
+            // console.log(data);
         }).fail(err => {
             console.log(err);
         });
@@ -62,6 +67,8 @@ export default function ContactSocietyAdministrator(props) {
                 name="subject"
                 label="Subject"
                 variant="outlined"
+                value={subject}
+                onChange={e => setSubject(e.target.value)}
                 required
                 fullWidth
                 autoComplete="subject"
@@ -91,6 +98,8 @@ export default function ContactSocietyAdministrator(props) {
                 required
                 id="Content"
                 name="Content"
+                value={content}
+                onChange={e => setContent(e.target.value)}
                 multiline
                 label="Content"
                 variant="outlined"

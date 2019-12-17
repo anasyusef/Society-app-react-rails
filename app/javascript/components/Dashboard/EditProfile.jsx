@@ -29,27 +29,47 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { makeStyles } from '@material-ui/core/styles';
 import CustomizedSnackbar from '../CustomizedSnackbar';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 export default function JoinSocietyForm(props) {
     const classes = useStyles();
     const [isDisabled, setIsDisabled] = React.useState(false);
     const [firstName, setFirstName] = React.useState(props.current_user.first_name)
     const [lastName, setLastName] = React.useState(props.current_user.last_name)
+    const [newPassword, setNewPassword] = React.useState('')
+    const [newPasswordConfirm, setNewPasswordConfirm] = React.useState('')
     const [open, setOpen] = React.useState(false);
     const [snackBarInfo, setSnackBarInfo] = React.useState({message: '', variant: ''})
+
+    React.useEffect(() => {
+      ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
+        if (value !== newPassword) {
+            return false;
+        }
+        return true;
+      });
+      return function cleanup() {
+        ValidatorForm.removeValidationRule('isPasswordMatch');
+      }
+    })
+
     Auth.configure({apiUrl: '/api/v1'})
-    const handleClick = event => {
+    const handleSubmit = event => {
         setOpen(true);
         setIsDisabled(true)
+        Auth.updatePassword({
+          password: newPassword,
+          password_confirmation: newPasswordConfirm
+          });
         Auth.updateAccount({
             first_name: firstName,
             last_name: lastName,
+          }).then(() => {
+            setSnackBarInfo({message: 'Profile updated', variant: 'success'})
+          }).catch(() => {
+            setSnackBarInfo({message: 'There was an error while updating your profile', variant: 'error'})
           });
-        Auth.updatePassword({
-        password: '1234567890',
-        password_confirmation: '1234567890'
-        });
-        
+        setIsDisabled(false)
     }
   
     const handleClose = (event, reason) => {
@@ -65,26 +85,35 @@ export default function JoinSocietyForm(props) {
       <Typography variant="h6" gutterBottom>
         Edit Profile
       </Typography>
+      <ValidatorForm 
+        className={classes.form}
+        onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <TextField
+          <TextValidator
+            required
             id="first_name"
             name="first_name"
             label="First Name"
             value={firstName}
             onChange={e => setFirstName(e.target.value)}
+            validators={['required']}
+            errorMessages={['Field is required']}    
             variant="outlined"
             fullWidth
             autoComplete="location"
           />
         </Grid>
         <Grid item xs={6}>
-          <TextField
+          <TextValidator
+            required
             id="last_name"
             name="last_name"
             label="Last Name"
             value={lastName}
             onChange={e => setLastName(e.target.value)}
+            validators={['required']}
+            errorMessages={['Field is required']}
             variant="outlined"
             fullWidth
           />
@@ -102,21 +131,29 @@ export default function JoinSocietyForm(props) {
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField
+          <TextValidator
             id="new_password"
             name="new_password"
             type="password"
+            value={newPassword}
+            onChange={e => setNewPassword(e.target.value)}
             label="New Password"
+            validators={['required']}
+            errorMessages={['Field is required']}
             variant="outlined"
             fullWidth
           />
         </Grid>
         <Grid item xs={4}>
-          <TextField
+          <TextValidator
             id="confirm_password"
             name="confirm_password"
+            value={newPasswordConfirm}
+            onChange={e => setNewPasswordConfirm(e.target.value)}
             type="password"
             label="Confirm Password"
+            validators={['isPasswordMatch', 'required']}
+            errorMessages={['Password does not match', 'Field is required']}
             variant="outlined"
             fullWidth
           />
@@ -125,16 +162,18 @@ export default function JoinSocietyForm(props) {
       </Grid>
       <div className={classes.buttons}>
             <Button
+                type="submit"
                 variant="contained"
                 color="primary"
                 disabled={isDisabled}
                 className={classes.button}
-                onClick={handleClick}
             >
                 Update
             </Button>
-            {snackBarInfo.variant !== '' ? <CustomizedSnackbar open={open} variant={snackBarInfo.variant} message={snackBarInfo.message} onClose={handleClose}/> : null}
+            
     </div>
+      </ValidatorForm>
+      {snackBarInfo.variant !== '' ? <CustomizedSnackbar open={open} variant={snackBarInfo.variant} message={snackBarInfo.message} onClose={handleClose}/> : null}
     </Paper>
     </Dashboard>
   );

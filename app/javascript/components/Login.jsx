@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -67,8 +66,8 @@ export default function SignIn(props) {
         email: email,
         password: password,
       }).then(response => {
-        setFormValidation({success: true, message: 'Successful Login'})
         window.location.href = '/dashboard/home'
+        setFormValidation({success: true, message: 'Successful Login'})
       }).catch(err => {
           setFormValidation({success: err.data.success, message: err.data.errors})
       }).then(() => {
@@ -139,11 +138,6 @@ export default function SignIn(props) {
             Sign In
           </Button>
           <Grid container>
-            <Grid item xs>
-            <Link href="/auth/forgot_password" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link href="/auth/sign_up" variant="body2">
                 {"Don't have an account? Sign Up"}

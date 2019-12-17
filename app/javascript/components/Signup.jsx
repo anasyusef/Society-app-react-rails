@@ -69,6 +69,7 @@ export default function SignUp() {
         password_confirmation: password,
         role_name: 'Member',
       }).then(response => {
+          window.location.href = '/dashboard/home'
           setFormValidation({success: true, message: 'Successfully registered'})
           
       }).catch(err => {
@@ -106,7 +107,7 @@ export default function SignUp() {
                 value={firstName}
                 onChange={e => {setFirstName(e.target.value)}}
                 validators={['required']}
-                errorMessages={['Field is required', 'asdasd']}
+                errorMessages={['Field is required']}
                 required
                 fullWidth
                 id="firstName"

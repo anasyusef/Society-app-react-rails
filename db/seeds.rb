@@ -12,15 +12,20 @@ role_society_admin = Role.new(name: 'Society Administrator')
 role_member.save!
 role_society_admin.save!
 40.times do
-    user = User.new(
-             first_name:" #{Faker::Name.first_name}",
-             last_name: "#{Faker::Name.last_name}",
-             email: "#{Faker::Internet.email}",
-             role: Role.all.sample,
-             password: "Some password", 
-             encrypted_password: "Some password",
-           )
-    user.save!
+    begin
+        user = User.new(
+            first_name:" #{Faker::Name.first_name}",
+            last_name: "#{Faker::Name.last_name}",
+            email: "#{Faker::Internet.email}",
+            role: Role.all.sample,
+            password: "Some password", 
+            encrypted_password: "Some password",
+          )
+        user.save!
+    rescue => Exception
+        retry
+    end
+    
 end
 
 location = ['Surrey Sports Park', 'Teaching Block', 'BB', 'Library', 'Manor Park', 'IFH']
@@ -28,12 +33,17 @@ days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sun
 times = ["12:00", "6:30", "13:30", "16:00", "18:00", "20:00", "22:00", "17:00", "9:00", "9:30"]
 
 
-8.times do
-    schedule = Schedule.new(day: days.sample, start_time: times.sample.to_time, end_time: times.sample.to_time)
-    schedule.save!
+5.times do
+    begin
+        schedule = Schedule.new(day: days.sample, start_time: times.sample.to_time, end_time: times.sample.to_time)
+        schedule.save!
+    rescue => Exception
+        retry
+    end
+    
 end
 
-10.times do
+6.times do
     begin
         society = Society.new(
             name:" #{Faker::Esport.game}",

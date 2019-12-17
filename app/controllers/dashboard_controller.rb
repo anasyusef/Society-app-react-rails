@@ -26,6 +26,14 @@ class DashboardController < ApplicationController
   
   def contact_society_administrator
     @society_administrators_json = User.joins(:societies).uniq
+    if request.post?
+      name = '#{@current_user.first_name} #{@current_user.last_name}'
+      from_email = @current_user.email
+      to_email = params[:to_email]
+      subject = params[:name]
+      content = params[:message]
+      ContactMailer.contact_email(name, from_email, to_email, subject, content).deliver_now
+    end
   end
 
   def edit_profile
