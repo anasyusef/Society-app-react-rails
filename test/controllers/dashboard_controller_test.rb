@@ -2,12 +2,6 @@ require 'test_helper'
 
 class DashboardControllerTest < ActionDispatch::IntegrationTest
 
-  def setup
-    @role = Role.new(name: "Member")
-    @user = User.new(first_name: "Test", last_name: "Test", password: "12345678", email: "testing111@test.com", role: @role)
-    @user.save
-  end
-
   test "should redirect to login for dashboard home" do
     get dashboard_home_url
     assert_response :redirect
