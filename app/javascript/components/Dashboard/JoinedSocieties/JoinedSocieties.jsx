@@ -53,7 +53,7 @@ export default function JoinedSocieties(props) {
               <Card>
                 <CardContent>
                 <Typography align="center" variant="h5">
-                  You are not joined in any societies
+                  You are not joined to any societies
                 </Typography>
                 </CardContent>
                 
@@ -72,6 +72,7 @@ export default function JoinedSocieties(props) {
             location={society.location}
             brief_description={society.brief_description} 
             essentials={society.essentials}
+            society_administrator={society.society_administrator}
             onQuit={handleQuit}
              />
             

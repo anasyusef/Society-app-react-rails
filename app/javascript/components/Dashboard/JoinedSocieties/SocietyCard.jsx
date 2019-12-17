@@ -36,11 +36,13 @@ export default function SocietyCard(props) {
                     </Typography>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                     {props.location}
+                    <br/>
+                    Society Administrator: {props.society_administrator.first_name} {props.society_administrator.last_name}
                     </Typography>
                     <Typography variant="body2" component="p">
-                    {props.brief_description}
+                    <b>Description:</b> {props.brief_description}
                     <br />
-                    <b>ESSENTIALS:</b> {props.essentials}
+                    <b>Essentials:</b> {props.essentials}
                     </Typography>
                 </CardContent>
                 <CardActions>

@@ -37,6 +37,7 @@ class DashboardController < ApplicationController
     joined_societies_json = []
     joined_societies.each do |society|
       society_json = society.as_json
+      society_json['society_administrator'] = society.user
       society_json['day'] = society.schedule.day
       society_json['start_time'] = society.schedule.start_time.strftime('%H:%M')
       society_json['end_time'] = society.schedule.end_time.strftime('%H:%M')

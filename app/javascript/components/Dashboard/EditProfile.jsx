@@ -33,25 +33,22 @@ import CustomizedSnackbar from '../CustomizedSnackbar';
 export default function JoinSocietyForm(props) {
     const classes = useStyles();
     const [isDisabled, setIsDisabled] = React.useState(false);
+    const [firstName, setFirstName] = React.useState(props.current_user.first_name)
+    const [lastName, setLastName] = React.useState(props.current_user.last_name)
     const [open, setOpen] = React.useState(false);
     const [snackBarInfo, setSnackBarInfo] = React.useState({message: '', variant: ''})
     Auth.configure({apiUrl: '/api/v1'})
     const handleClick = event => {
         setOpen(true);
         setIsDisabled(true)
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:3000/api/v1/registrations',
-            dataType: 'JSON',
-            headers: Auth.retrieveData('authHeaders'),
-            data: society,
-        }).done(data => {
-            setSnackBarInfo({message: `You have joined ${society.name} successfully!`, variant: 'success'})
-            setSociety({...society, joined_members : society.joined_members + 1})
-        }).fail(err => {
-            setSnackBarInfo({message: `You are already joined in ${society.name}`, variant: 'error'})
-            
-        }).always(() => setIsDisabled(false));
+        Auth.updateAccount({
+            first_name: firstName,
+            last_name: lastName,
+          });
+        Auth.updatePassword({
+        password: '1234567890',
+        password_confirmation: '1234567890'
+        });
         
     }
   
@@ -71,10 +68,11 @@ export default function JoinSocietyForm(props) {
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <TextField
-            id="location"
-            name="location"
-            label="Location"
-            value={props.current_user.first_name}
+            id="first_name"
+            name="first_name"
+            label="First Name"
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}
             variant="outlined"
             fullWidth
             autoComplete="location"
@@ -82,22 +80,23 @@ export default function JoinSocietyForm(props) {
         </Grid>
         <Grid item xs={6}>
           <TextField
-            id="essentials"
-            name="essentials"
-            label="Essentials"
-            value={props.current_user.last_name}
+            id="last_name"
+            name="last_name"
+            label="Last Name"
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}
             variant="outlined"
             fullWidth
           />
         </Grid>
         <Grid item xs={12}>
           <TextField
-            id="brief_description"
-            name="brief_description"
+            id="email"
+            name="email"
             value={props.current_user.email}
             disabled
             multiline
-            label="Brief Description"
+            label="Email"
             variant="outlined"
             fullWidth
           />
