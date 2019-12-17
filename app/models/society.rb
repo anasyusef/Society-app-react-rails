@@ -13,7 +13,7 @@ class Society < ApplicationRecord
         if !self.user.nil?
             if !self.user.role.nil?
                 if  self.user.role.name != "Society Administrator"
-                    errors.add(:user, " must be a Society Administrator")
+                    errors.add(:user, "must be a Society Administrator")
                 end
             end
         end
