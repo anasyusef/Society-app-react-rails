@@ -11,9 +11,4 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get forgot_password" do
-    get auth_forgot_password_url
-    assert_response :success
-  end
-
 end
